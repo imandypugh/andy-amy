@@ -105,13 +105,13 @@ function App() {
           <div className="couple-photo">
             <img 
               src="/573854774_10172425787175467_6061678781317885022_n.jpg" 
-              alt="Andy & Amy"
+              alt="Amy & Andy"
               className="photo-circle"
             />
           </div>
         </div>
         
-        <h1 className="couple-names">Andy <span className="ampersand">&</span> Amy</h1>
+        <h1 className="couple-names">Amy <span className="ampersand">&</span> Andy</h1>
         
         <div className="divider-elegant">
           <div className="divider-line"></div>
@@ -120,22 +120,28 @@ function App() {
         </div>
         
         <p className="announcement">We're Engaged!</p>
-        <p className="invitation-text">You're cordially invited to celebrate with us</p>
+        <p className="invitation-text">Come join us for a night of food, drinks, and music!</p>
         
         <div className="details">
           <div className="detail-item">
             <div className="detail-icon-wrapper">
-              <div className="detail-icon">📅</div>
+              <svg className="detail-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM5 7V6h14v1H5z" fill="currentColor"/>
+                <path d="M7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z" fill="currentColor"/>
+              </svg>
             </div>
             <div className="detail-content">
               <h3>Date</h3>
-              <p>Friday, January 2nd, 2026</p>
+              <p>Friday, 2nd January 2026</p>
             </div>
           </div>
           
           <div className="detail-item">
             <div className="detail-icon-wrapper">
-              <div className="detail-icon">🕐</div>
+              <svg className="detail-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" fill="currentColor"/>
+                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor"/>
+              </svg>
             </div>
             <div className="detail-content">
               <h3>Time</h3>
@@ -145,7 +151,9 @@ function App() {
           
           <div className="detail-item location-item">
             <div className="detail-icon-wrapper">
-              <div className="detail-icon">🥂</div>
+              <svg className="detail-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+              </svg>
             </div>
             <div className="detail-content">
               <h3>Location</h3>
