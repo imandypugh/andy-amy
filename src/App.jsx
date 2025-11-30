@@ -1,12 +1,17 @@
 import { useState } from 'react'
+import { supabase, isSupabaseConfigured } from './lib/supabase'
 
 function App() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    phoneNumber: '',
     plusOne: false,
-    dietaryRequirements: false
+    dietaryRequirements: false,
+    dietaryRequirementsText: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -16,12 +21,63 @@ function App() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // TODO: Add submission endpoint when provided
-    console.log('Form submitted:', formData)
-    // Placeholder - will be updated with actual endpoint
-    alert('RSVP submitted! (Form submission endpoint to be added)')
+    
+    if (!isSupabaseConfigured()) {
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Supabase is not configured. Please check your environment variables.' 
+      })
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      const { data, error } = await supabase
+        .from('rsvps')
+        .insert([
+          {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone_number: formData.phoneNumber || null,
+            plus_one: formData.plusOne,
+            dietary_requirements: formData.dietaryRequirements,
+            dietary_requirements_text: formData.dietaryRequirementsText || null
+          }
+        ])
+        .select()
+
+      if (error) throw error
+
+      setSubmitStatus({ type: 'success', message: 'Thank you! Your RSVP has been submitted.' })
+      
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        plusOne: false,
+        dietaryRequirements: false,
+        dietaryRequirementsText: ''
+      })
+    } catch (error) {
+      console.error('Error submitting RSVP:', error)
+      console.error('Error details:', {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint
+      })
+      setSubmitStatus({ 
+        type: 'error', 
+        message: error.message || 'Sorry, there was an error submitting your RSVP. Please try again.' 
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -74,7 +130,7 @@ function App() {
             </div>
             <div className="detail-content">
               <h3>Time</h3>
-              <p>6:00 PM</p>
+              <p>7:00 PM</p>
             </div>
           </div>
           
@@ -125,6 +181,18 @@ function App() {
               </div>
             </div>
             
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                placeholder="e.g., +44 123 456 7890"
+              />
+            </div>
+            
             <div className="form-checkboxes">
               <label className="checkbox-label">
                 <input
@@ -133,7 +201,7 @@ function App() {
                   checked={formData.plusOne}
                   onChange={handleChange}
                 />
-                <span>I will bring a +1</span>
+                <span>I will be bringing a guest</span>
               </label>
               
               <label className="checkbox-label">
@@ -147,8 +215,32 @@ function App() {
               </label>
             </div>
             
-            <button type="submit" className="rsvp-button">
-              Submit RSVP
+            {formData.dietaryRequirements && (
+              <div className="form-group">
+                <label htmlFor="dietaryRequirementsText">Please specify your dietary requirements or allergies</label>
+                <textarea
+                  id="dietaryRequirementsText"
+                  name="dietaryRequirementsText"
+                  value={formData.dietaryRequirementsText}
+                  onChange={handleChange}
+                  rows="3"
+                  placeholder="e.g., Vegetarian, Gluten-free, Nut allergy, etc."
+                />
+              </div>
+            )}
+            
+            {submitStatus && (
+              <div className={`submit-message submit-message-${submitStatus.type}`}>
+                {submitStatus.message}
+              </div>
+            )}
+            
+            <button 
+              type="submit" 
+              className="rsvp-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit RSVP'}
             </button>
           </form>
         </div>
