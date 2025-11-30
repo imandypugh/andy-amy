@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase, isSupabaseConfigured } from './lib/supabase'
+import confetti from 'canvas-confetti'
 
 function App() {
   const [formData, setFormData] = useState({
@@ -11,10 +12,70 @@ function App() {
     dietaryRequirements: false,
     dietaryRequirementsText: '',
     guestDietaryRequirements: false,
-    guestDietaryRequirementsText: ''
+    guestDietaryRequirementsText: '',
+    songRequest: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
+
+  const triggerCelebration = () => {
+    const duration = 3000
+    const end = Date.now() + duration
+
+    const colors = ['#D4AF37', '#1E3A8A', '#FFFFFF', '#F4D03F']
+
+    const interval = setInterval(() => {
+      if (Date.now() > end) {
+        return clearInterval(interval)
+      }
+
+      // Multiple bursts from different positions
+      confetti({
+        particleCount: 50,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: colors
+      })
+      confetti({
+        particleCount: 50,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: colors
+      })
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: colors
+      })
+    }, 200)
+
+    // Fireworks effect
+    setTimeout(() => {
+      const firework = (x, y) => {
+        confetti({
+          particleCount: 100,
+          startVelocity: 30,
+          spread: 360,
+          ticks: 50,
+          origin: { x, y },
+          colors: colors,
+          shapes: ['circle', 'square'],
+          gravity: 0.5
+        })
+      }
+
+      // Multiple firework bursts
+      firework(0.5, 0.3)
+      setTimeout(() => firework(0.2, 0.4), 300)
+      setTimeout(() => firework(0.8, 0.4), 600)
+      setTimeout(() => firework(0.5, 0.2), 900)
+      setTimeout(() => firework(0.3, 0.5), 1200)
+      setTimeout(() => firework(0.7, 0.5), 1500)
+    }, 500)
+  }
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -51,12 +112,16 @@ function App() {
             dietary_requirements: formData.dietaryRequirements,
             dietary_requirements_text: formData.dietaryRequirementsText || null,
             guest_dietary_requirements: formData.guestDietaryRequirements,
-            guest_dietary_requirements_text: formData.guestDietaryRequirementsText || null
+            guest_dietary_requirements_text: formData.guestDietaryRequirementsText || null,
+            song_request: formData.songRequest || null
           }
         ])
         .select()
 
       if (error) throw error
+
+      // Trigger celebration!
+      triggerCelebration()
 
       setSubmitStatus({ type: 'success', message: 'Thank you! Your RSVP has been submitted.' })
       
@@ -70,7 +135,8 @@ function App() {
         dietaryRequirements: false,
         dietaryRequirementsText: '',
         guestDietaryRequirements: false,
-        guestDietaryRequirementsText: ''
+        guestDietaryRequirementsText: '',
+        songRequest: ''
       })
     } catch (error) {
       console.error('Error submitting RSVP:', error)
@@ -171,7 +237,15 @@ function App() {
           </div>
           <p className="rsvp-text">Please let us know if you can join us!</p>
           
-          <form className="rsvp-form" onSubmit={handleSubmit}>
+          {submitStatus?.type === 'success' ? (
+            <div className="success-container">
+              <div className="success-icon">✨</div>
+              <h2 className="success-title">Thank You!</h2>
+              <p className="success-message">{submitStatus.message}</p>
+              <p className="success-submessage">We can't wait to celebrate with you!</p>
+            </div>
+          ) : (
+            <form className="rsvp-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
@@ -289,7 +363,19 @@ function App() {
               </div>
             )}
             
-            {submitStatus && (
+            <div className="form-group">
+              <label htmlFor="songRequest">Song or Karaoke Request (optional)</label>
+              <input
+                type="text"
+                id="songRequest"
+                name="songRequest"
+                value={formData.songRequest}
+                onChange={handleChange}
+                placeholder="e.g., Dancing Queen by ABBA"
+              />
+            </div>
+            
+            {submitStatus && submitStatus.type === 'error' && (
               <div className={`submit-message submit-message-${submitStatus.type}`}>
                 {submitStatus.message}
               </div>
@@ -303,6 +389,7 @@ function App() {
               {isSubmitting ? 'Submitting...' : 'Submit RSVP'}
             </button>
           </form>
+          )}
         </div>
         
         <p className="closing">We can't wait to celebrate with you!</p>
