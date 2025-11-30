@@ -7,8 +7,11 @@ function App() {
     lastName: '',
     phoneNumber: '',
     plusOne: false,
+    guestName: '',
     dietaryRequirements: false,
-    dietaryRequirementsText: ''
+    dietaryRequirementsText: '',
+    guestDietaryRequirements: false,
+    guestDietaryRequirementsText: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
@@ -44,8 +47,11 @@ function App() {
             last_name: formData.lastName,
             phone_number: formData.phoneNumber || null,
             plus_one: formData.plusOne,
+            guest_name: formData.guestName || null,
             dietary_requirements: formData.dietaryRequirements,
-            dietary_requirements_text: formData.dietaryRequirementsText || null
+            dietary_requirements_text: formData.dietaryRequirementsText || null,
+            guest_dietary_requirements: formData.guestDietaryRequirements,
+            guest_dietary_requirements_text: formData.guestDietaryRequirementsText || null
           }
         ])
         .select()
@@ -60,8 +66,11 @@ function App() {
         lastName: '',
         phoneNumber: '',
         plusOne: false,
+        guestName: '',
         dietaryRequirements: false,
-        dietaryRequirementsText: ''
+        dietaryRequirementsText: '',
+        guestDietaryRequirements: false,
+        guestDietaryRequirementsText: ''
       })
     } catch (error) {
       console.error('Error submitting RSVP:', error)
@@ -203,7 +212,24 @@ function App() {
                 />
                 <span>I will be bringing a guest</span>
               </label>
-              
+            </div>
+            
+            {formData.plusOne && (
+              <div className="form-group">
+                <label htmlFor="guestName">Guest Name</label>
+                <input
+                  type="text"
+                  id="guestName"
+                  name="guestName"
+                  value={formData.guestName}
+                  onChange={handleChange}
+                  placeholder="Enter your guest's name"
+                  required={formData.plusOne}
+                />
+              </div>
+            )}
+            
+            <div className="form-checkboxes" style={{ marginTop: formData.plusOne ? '1.5rem' : '0' }}>
               <label className="checkbox-label">
                 <input
                   type="checkbox"
@@ -213,6 +239,18 @@ function App() {
                 />
                 <span>I have dietary requirements or allergies</span>
               </label>
+              
+              {formData.plusOne && (
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="guestDietaryRequirements"
+                    checked={formData.guestDietaryRequirements}
+                    onChange={handleChange}
+                  />
+                  <span>My guest has dietary requirements or allergies</span>
+                </label>
+              )}
             </div>
             
             {formData.dietaryRequirements && (
@@ -222,6 +260,20 @@ function App() {
                   id="dietaryRequirementsText"
                   name="dietaryRequirementsText"
                   value={formData.dietaryRequirementsText}
+                  onChange={handleChange}
+                  rows="3"
+                  placeholder="e.g., Vegetarian, Gluten-free, Nut allergy, etc."
+                />
+              </div>
+            )}
+            
+            {formData.guestDietaryRequirements && (
+              <div className="form-group">
+                <label htmlFor="guestDietaryRequirementsText">Please specify your guest's dietary requirements or allergies</label>
+                <textarea
+                  id="guestDietaryRequirementsText"
+                  name="guestDietaryRequirementsText"
+                  value={formData.guestDietaryRequirementsText}
                   onChange={handleChange}
                   rows="3"
                   placeholder="e.g., Vegetarian, Gluten-free, Nut allergy, etc."
