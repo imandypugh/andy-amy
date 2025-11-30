@@ -352,18 +352,41 @@ body::before {
   font-family: 'Cormorant Garamond', serif;
 }
 
+.location-link-wrapper {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+.location-link-wrapper:hover .detail-item {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 30px var(--shadow-hover);
+}
+
+.location-link-wrapper:hover .detail-item::before {
+  opacity: 1;
+}
+
+.location-link-wrapper:hover .location-name,
+.location-link-wrapper:hover .location-address {
+  color: var(--accent);
+}
+
 .location-name {
   font-size: 1.25rem !important;
   font-weight: 600 !important;
   color: var(--text-primary) !important;
   margin-bottom: 0.5rem !important;
-  font-family: 'Playfair Display', serif !important;
+  font-family: 'Cormorant Garamond', serif !important;
+  transition: color 0.2s ease;
 }
 
 .location-address {
   font-size: 0.95rem !important;
   color: var(--text-secondary) !important;
   font-weight: 400 !important;
+  transition: color 0.2s ease;
 }
 
 .rsvp-section {
@@ -720,6 +743,31 @@ body::before {
   padding: 0 3rem;
 }
 
+.footer-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 0 3rem;
+}
+
+.footer-logo-link {
+  display: inline-block;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.footer-logo-link:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.paris-logo {
+  max-width: 300px;
+  height: auto;
+  opacity: 0.9;
+  display: block;
+}
+
 .footer-hearts {
   display: flex;
   justify-content: center;
@@ -812,6 +860,14 @@ body::before {
   
   .closing {
     padding: 0 1.5rem;
+  }
+  
+  .footer-logo {
+    padding: 0 1.5rem;
+  }
+  
+  .paris-logo {
+    max-width: 250px;
   }
   
   .footer-hearts {

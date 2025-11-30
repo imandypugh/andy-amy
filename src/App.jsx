@@ -215,18 +215,24 @@ function App() {
             </div>
           </div>
           
-          <div className="detail-item location-item">
-            <div className="detail-icon-wrapper">
-              <svg className="detail-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
-              </svg>
+          <a 
+            href="https://maps.app.goo.gl/3RjTevbitBNKFHCh6" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="location-link-wrapper"
+          >
+            <div className="detail-item location-item">
+              <div className="detail-icon-wrapper">
+                <svg className="detail-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div className="detail-content">
+                <h3>Location</h3>
+                <p className="location-name">Cafe Parisien, Belfast</p>
+              </div>
             </div>
-            <div className="detail-content">
-              <h3>Location</h3>
-              <p className="location-name">Cafe Parisien</p>
-              <p className="location-address">City Hall Belfast</p>
-            </div>
-          </div>
+          </a>
         </div>
         
         <div className="rsvp-section">
@@ -393,6 +399,17 @@ function App() {
         </div>
         
         <p className="closing">We can't wait to celebrate with you!</p>
+        
+        <div className="footer-logo">
+          <a 
+            href="https://maps.app.goo.gl/3RjTevbitBNKFHCh6" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="footer-logo-link"
+          >
+            <img src="/paris.svg" alt="Cafe Parisien" className="paris-logo" />
+          </a>
+        </div>
         
         <div className="footer-hearts">
           <svg className="heart-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
